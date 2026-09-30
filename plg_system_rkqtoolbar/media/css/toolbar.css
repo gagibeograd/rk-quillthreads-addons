@@ -1,0 +1,223 @@
+/* RK: traka iznad QuillThreads polja za komentar. Boje nasleđuje od Quill-a (currentColor), ne nameće svoje.
+ * Ikonice i emodži birač po uzoru na naš JComments šablon (templates/it_medical/html/com_jcomments/default/style.css). */
+.rk-qt-host { position: relative; }
+.rk-qt-toolbar {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 4px;
+	margin: 0 0 6px;
+	--rk-qt-accent: #af9a7d;
+	--rk-qt-accent-soft: rgba(175, 154, 125, 0.14);
+	--rk-qt-ring: 0 0 0 3px rgba(175, 154, 125, 0.28);
+}
+.rk-qt-btn {
+	appearance: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	border: 1px solid rgba(127, 127, 127, 0.35);
+	background: transparent;
+	color: inherit;
+	border-radius: 7px;
+	min-width: 32px;
+	height: 30px;
+	padding: 0 7px;
+	font: 700 15px/1 Georgia, "Times New Roman", serif;
+	cursor: pointer;
+	opacity: 0.85;
+	transition: background .12s ease, transform .12s ease, opacity .12s ease;
+}
+.rk-qt-btn:hover,
+.rk-qt-btn:focus-visible {
+	opacity: 1;
+	background: var(--rk-qt-accent-soft);
+	transform: translateY(-1px);
+	outline: none;
+}
+.rk-qt-btn-italic { font-style: italic; font-weight: 400; }
+.rk-qt-btn-code { font-family: ui-monospace, monospace; font-weight: 500; font-size: 12px; }
+/* SVG ikonice (maska, boja = currentColor), iste kao na JComments-u */
+.rk-qt-btn-link::before,
+.rk-qt-btn-quote::before,
+.rk-qt-btn-list::before {
+	content: "";
+	display: block;
+	width: 17px; height: 17px;
+	background-color: currentColor;
+	-webkit-mask: var(--rk-qt-icon) center / contain no-repeat;
+	mask: var(--rk-qt-icon) center / contain no-repeat;
+}
+.rk-qt-btn-quote::before { --rk-qt-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 21c3 0 7-1 7-8V5c0-1.25-.76-2.02-2-2H4c-1.25 0-2 .75-2 1.97V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .01-1 1.01V20c0 1 0 1 1 1z'/%3E%3Cpath d='M15 21c3 0 7-1 7-8V5c0-1.25-.75-2.02-2-2h-4c-1.25 0-2 .75-2 1.97V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z'/%3E%3C/svg%3E"); }
+.rk-qt-btn-link::before { --rk-qt-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71'/%3E%3Cpath d='M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71'/%3E%3C/svg%3E"); }
+.rk-qt-btn-list::before { --rk-qt-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01'/%3E%3C/svg%3E"); }
+/* YouTube i smajli: Gagijeve ikonice (kao u JComments traci), putanja relativna u odnosu na ovaj CSS */
+.rk-qt-btn-youtube::before,
+.rk-qt-btn-emoji::before {
+	content: "";
+	display: block;
+	width: 20px; height: 20px;
+	background: center / contain no-repeat;
+}
+.rk-qt-btn-youtube { margin-left: 6px; }
+.rk-qt-btn-youtube::before { background-image: url("../images/youtube.png"); }
+.rk-qt-btn-emoji::before { background-image: url("../images/smile.png"); }
+.rk-qt-hint {
+	margin-left: auto;
+	font-size: 11px;
+	opacity: 0.55;
+}
+
+/* emodži birač (emoji.js): lebdi ispod trake, isti izgled kao na JComments-u */
+.rk-qt-emoji {
+	position: absolute;
+	left: 0; top: 40px;
+	z-index: 60;
+	width: min(360px, 100%);
+	background: #fff;
+	color: #252d37;
+	border: 1px solid rgba(37, 45, 55, .12);
+	border-radius: 14px;
+	box-shadow: 0 18px 44px rgba(20, 24, 30, .18);
+	display: flex; flex-direction: column;
+	opacity: 0; transform: translateY(-6px);
+	transition: opacity .15s ease, transform .15s ease;
+	--rk-qt-accent: #af9a7d;
+	--rk-qt-accent-soft: rgba(175, 154, 125, 0.14);
+	--rk-qt-ring: 0 0 0 3px rgba(175, 154, 125, 0.28);
+}
+.rk-qt-emoji[hidden] { display: none; }
+.rk-qt-emoji.is-open { opacity: 1; transform: none; }
+.rk-qt-emoji__tabs {
+	display: flex; gap: 2px;
+	padding: 8px 8px 0;
+	border-bottom: 1px solid rgba(37, 45, 55, .1);
+	overflow-x: auto;
+	scrollbar-width: none;
+}
+.rk-qt-emoji__tab {
+	appearance: none; border: 0; background: transparent; cursor: pointer;
+	flex: 1 0 auto;
+	font-size: 1.15rem; line-height: 1;
+	padding: 6px 4px 8px;
+	border-bottom: 2px solid transparent;
+	border-radius: 6px 6px 0 0;
+	filter: grayscale(.4); opacity: .75;
+	transition: all .12s ease;
+}
+.rk-qt-emoji__tab:hover { background: var(--rk-qt-accent-soft); filter: none; opacity: 1; }
+.rk-qt-emoji__tab.is-active { border-bottom-color: var(--rk-qt-accent); filter: none; opacity: 1; }
+.rk-qt-emoji__search {
+	margin: 8px;
+	font: inherit; font-size: .88rem;
+	color: inherit;
+	padding: 8px 12px;
+	border: 1px solid rgba(37, 45, 55, .16);
+	border-radius: 999px;
+	outline: none;
+	background: #f6f4f0;
+}
+.rk-qt-emoji__search:focus { border-color: var(--rk-qt-accent); box-shadow: var(--rk-qt-ring); background: #fff; }
+.rk-qt-emoji__body { max-height: 260px; overflow-y: auto; padding: 0 8px 8px; overscroll-behavior: contain; }
+.rk-qt-emoji__title {
+	position: sticky; top: 0;
+	font-size: .72rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
+	color: #6b7280;
+	background: #fff;
+	padding: 8px 4px 4px;
+}
+.rk-qt-emoji__grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(36px, 1fr)); gap: 2px; }
+.rk-qt-emoji__item {
+	appearance: none; border: 0; background: transparent; cursor: pointer;
+	font-size: 1.35rem; line-height: 1;
+	height: 36px;
+	border-radius: 8px;
+	transition: background .1s ease, transform .1s ease;
+	font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Segoe UI Symbol", sans-serif;
+}
+.rk-qt-emoji__item:hover { background: var(--rk-qt-accent-soft); transform: scale(1.15); }
+.rk-qt-emoji__item:focus-visible { outline: none; box-shadow: var(--rk-qt-ring); }
+@media (max-width: 640px) {
+	.rk-qt-emoji__body { max-height: 220px; }
+}
+
+/* YouTube plejer u objavljenom komentaru: sličica sa dugmetom, iframe tek posle klika */
+.rk-qt-yt {
+	position: relative;
+	max-width: 480px;
+	aspect-ratio: 16 / 9;
+	margin: 8px 0;
+	border-radius: 8px;
+	overflow: hidden;
+	background: #000;
+}
+.rk-qt-yt-play,
+.rk-qt-yt iframe {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	border: 0;
+}
+.rk-qt-yt-play {
+	appearance: none;
+	background-color: #000;
+	background-size: cover;
+	background-position: center;
+	cursor: pointer;
+}
+.rk-qt-yt-play::after {
+	content: "";
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	width: 68px;
+	height: 48px;
+	transform: translate(-50%, -50%);
+	border-radius: 12px;
+	background: rgba(200, 0, 0, 0.9) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='white' d='M8 5v14l11-7z'/></svg>") center / 26px no-repeat;
+}
+.rk-qt-yt-play:hover::after { background-color: #f00; }
+
+/* modal sa YouTube plejerom: klik na tekst veze u komentaru */
+.rk-qt-ytmodal {
+	position: fixed; inset: 0;
+	z-index: 10050;
+	display: flex; align-items: center; justify-content: center;
+	padding: 20px;
+}
+.rk-qt-ytmodal[hidden] { display: none; }
+.rk-qt-ytmodal-open { overflow: hidden; }
+.rk-qt-ytmodal__backdrop {
+	position: absolute; inset: 0;
+	background: rgba(20, 24, 30, .8);
+	backdrop-filter: blur(3px);
+	opacity: 0;
+	transition: opacity .18s ease;
+}
+.rk-qt-ytmodal__box {
+	position: relative;
+	width: min(960px, 100%);
+	transform: translateY(14px) scale(.97);
+	opacity: 0;
+	transition: transform .2s ease, opacity .2s ease;
+}
+.rk-qt-ytmodal.is-open .rk-qt-ytmodal__backdrop { opacity: 1; }
+.rk-qt-ytmodal.is-open .rk-qt-ytmodal__box { transform: none; opacity: 1; }
+.rk-qt-ytmodal__frame {
+	position: relative;
+	aspect-ratio: 16 / 9;
+	background: #000;
+	border-radius: 12px;
+	overflow: hidden;
+	box-shadow: 0 30px 80px rgba(0, 0, 0, .5);
+}
+.rk-qt-ytmodal__frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.rk-qt-ytmodal__close {
+	position: absolute; right: -6px; top: -44px;
+	appearance: none; border: 0; cursor: pointer;
+	width: 38px; height: 38px; border-radius: 50%;
+	background: rgba(255, 255, 255, .12); color: #fff;
+	font-size: 28px; line-height: 1;
+}
+.rk-qt-ytmodal__close:hover { background: rgba(255, 255, 255, .25); }

@@ -1,0 +1,151 @@
+/* RK: galerija avatara za QuillThreads (avatar.js). Izgled po uzoru na naš JComments birač. */
+.rk-qta-trigger,
+.rk-qta-modal {
+	--rk-qta-accent: #af9a7d;
+	--rk-qta-accent-ink: #8b7860;
+	--rk-qta-accent-soft: rgba(175, 154, 125, .14);
+	--rk-qta-dark: #252d37;
+	--rk-qta-text: #3b3f46;
+	--rk-qta-muted: #8a8f98;
+	--rk-qta-line: rgba(37, 45, 55, .1);
+	--rk-qta-bg: #fff;
+	--rk-qta-soft: #f6f4f0;
+	--rk-qta-ring: 0 0 0 3px rgba(175, 154, 125, .28);
+}
+
+/* Quill-ov krug sa inicijalima dobija sliku: tekst sakrijemo, čvor ostaje njegov */
+.qt-avatar[data-rk-av] {
+	background-color: #fff !important; /* Quill-ova boja iz nijanse (plava, roze...) ne sme da proviri kroz providan PNG */
+	background-size: cover;
+	background-position: center;
+	color: transparent !important;
+	text-shadow: none;
+	/* okvir kao na JComments-u: beli prsten + tanka linija */
+	box-shadow: 0 0 0 2px #fff, 0 0 0 3px rgba(37, 45, 55, .18);
+}
+
+/* dugme u obrascu */
+.rk-qta-trigger {
+	appearance: none;
+	display: inline-flex; align-items: center; gap: 12px;
+	padding: 5px 18px 5px 5px;
+	margin: 0 0 10px;
+	font: inherit;
+	color: var(--rk-qta-text);
+	background: var(--rk-qta-bg);
+	border: 1px solid rgba(37, 45, 55, .16);
+	border-radius: 999px;
+	cursor: pointer;
+	text-align: left;
+	box-shadow: 0 1px 2px rgba(37, 45, 55, .05);
+	transition: border-color .15s ease, box-shadow .15s ease, transform .15s ease;
+}
+.rk-qta-trigger:hover { border-color: var(--rk-qta-accent); box-shadow: 0 6px 16px rgba(175, 154, 125, .22); transform: translateY(-1px); }
+.rk-qta-trigger:focus-visible { outline: none; border-color: var(--rk-qta-accent); box-shadow: var(--rk-qta-ring); }
+.rk-qta-trigger__preview {
+	display: inline-flex; align-items: center; justify-content: center; flex: none;
+	width: 42px; height: 42px;
+	border-radius: 50%;
+	color: var(--rk-qta-muted);
+	background: var(--rk-qta-soft);
+	box-shadow: inset 0 0 0 1px var(--rk-qta-line);
+	overflow: hidden;
+}
+.rk-qta-trigger__preview img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.rk-qta-trigger__preview img[hidden], .rk-qta-trigger__preview img:not([src]) { display: none; }
+.rk-qta-trigger.has-avatar .rk-qta-trigger__preview { box-shadow: 0 0 0 2px var(--rk-qta-accent); background: var(--rk-qta-bg); }
+.rk-qta-trigger.has-avatar .rk-qta-trigger__preview svg { display: none; }
+.rk-qta-trigger__text { display: flex; flex-direction: column; line-height: 1.25; }
+.rk-qta-trigger__label { font-size: .86rem; font-weight: 700; color: var(--rk-qta-dark); }
+.rk-qta-trigger__hint { font-size: .74rem; color: var(--rk-qta-muted); }
+
+/* prozor sa galerijom */
+.rk-qta-modal {
+	position: fixed; inset: 0;
+	z-index: 10050;
+	display: flex; align-items: center; justify-content: center;
+	padding: 20px;
+	font-size: .95rem;
+	color: var(--rk-qta-text);
+}
+.rk-qta-modal[hidden] { display: none; }
+.rk-qta-modal-open { overflow: hidden; }
+.rk-qta-modal__backdrop {
+	position: absolute; inset: 0;
+	background: rgba(20, 24, 30, .55);
+	backdrop-filter: blur(3px);
+	opacity: 0;
+	transition: opacity .18s ease;
+}
+.rk-qta-modal__box {
+	position: relative;
+	width: min(560px, 100%);
+	max-height: calc(100vh - 40px);
+	display: flex; flex-direction: column;
+	background: var(--rk-qta-bg);
+	border-radius: 18px;
+	box-shadow: 0 30px 80px rgba(20, 24, 30, .35);
+	transform: translateY(14px) scale(.97);
+	opacity: 0;
+	transition: transform .2s ease, opacity .2s ease;
+	outline: none;
+}
+.rk-qta-modal.is-open .rk-qta-modal__backdrop { opacity: 1; }
+.rk-qta-modal.is-open .rk-qta-modal__box { transform: none; opacity: 1; }
+.rk-qta-modal__head {
+	display: flex; align-items: center; justify-content: space-between; gap: 12px;
+	padding: 18px 22px 14px;
+	border-bottom: 1px solid var(--rk-qta-line);
+}
+.rk-qta-modal__title { font-size: 1.1rem; font-weight: 700; color: var(--rk-qta-dark); }
+.rk-qta-modal__close {
+	appearance: none; border: 0; background: transparent; cursor: pointer;
+	width: 36px; height: 36px; border-radius: 50%;
+	font-size: 26px; line-height: 1; color: var(--rk-qta-muted);
+	transition: background .15s ease, color .15s ease;
+}
+.rk-qta-modal__close:hover { background: var(--rk-qta-accent-soft); color: var(--rk-qta-dark); }
+.rk-qta-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+	gap: 12px;
+	padding: 20px 22px;
+	overflow-y: auto;
+}
+.rk-qta-opt {
+	appearance: none;
+	aspect-ratio: 1;
+	width: 100%;
+	padding: 0; margin: 0;
+	border: 2px solid transparent;
+	border-radius: 50%;
+	background: #faf8f5;
+	cursor: pointer;
+	box-shadow: 0 0 0 1px var(--rk-qta-line);
+	transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+}
+.rk-qta-opt img { display: block; width: 100%; height: 100%; border-radius: 50%; object-fit: cover; pointer-events: none; }
+.rk-qta-opt:hover { transform: translateY(-2px) scale(1.06); box-shadow: 0 8px 18px rgba(37, 45, 55, .18); }
+.rk-qta-opt:focus-visible { outline: none; box-shadow: var(--rk-qta-ring); }
+.rk-qta-opt.is-selected {
+	border-color: var(--rk-qta-accent);
+	box-shadow: 0 0 0 2px var(--rk-qta-bg), 0 0 0 4px var(--rk-qta-accent), 0 8px 18px rgba(175, 154, 125, .35);
+	transform: scale(1.06);
+}
+.rk-qta-modal__foot {
+	display: flex; justify-content: flex-end; gap: 10px;
+	padding: 14px 22px 18px;
+	border-top: 1px solid var(--rk-qta-line);
+}
+.rk-qta-btn {
+	appearance: none; cursor: pointer;
+	font: inherit; font-size: .9rem; font-weight: 600;
+	padding: 9px 18px;
+	border-radius: 999px;
+	border: 1px solid transparent;
+	transition: background .15s ease, color .15s ease, border-color .15s ease;
+}
+.rk-qta-btn--ghost { background: transparent; color: var(--rk-qta-muted); border-color: var(--rk-qta-line); }
+.rk-qta-btn--ghost:hover { color: var(--rk-qta-dark); border-color: var(--rk-qta-accent); }
+.rk-qta-btn--primary { background: var(--rk-qta-accent); color: #fff; }
+.rk-qta-btn--primary:hover { background: var(--rk-qta-accent-ink); }

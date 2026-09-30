@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" group="system" method="upgrade">
+	<name>plg_system_rkqtoolbar</name>
+	<creationDate>September 2026</creationDate>
+	<author>Radnička Klasa</author>
+	<authorUrl>https://radnickaklasa.com</authorUrl>
+	<copyright>2026 Radnička Klasa</copyright>
+	<license>GNU/GPL v2 or later</license>
+	<version>1.1.0</version>
+	<description>PLG_SYSTEM_RKQTOOLBAR_XML_DESCRIPTION</description>
+
+	<files>
+		<filename plugin="rkqtoolbar">rkqtoolbar.php</filename>
+		<folder>language</folder>
+	</files>
+
+	<media destination="plg_system_rkqtoolbar" folder="media">
+		<folder>js</folder>
+		<folder>css</folder>
+		<folder>images</folder>
+	</media>
+
+	<languages folder="language">
+		<language tag="en-GB">en-GB/plg_system_rkqtoolbar.ini</language>
+		<language tag="en-GB">en-GB/plg_system_rkqtoolbar.sys.ini</language>
+		<language tag="sr-YU">sr-YU/plg_system_rkqtoolbar.ini</language>
+		<language tag="sr-YU">sr-YU/plg_system_rkqtoolbar.sys.ini</language>
+	</languages>
+
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field name="syntax" type="list" label="PLG_SYSTEM_RKQTOOLBAR_PARAM_SYNTAX" description="PLG_SYSTEM_RKQTOOLBAR_PARAM_SYNTAX_DESC" default="auto">
+					<option value="auto">PLG_SYSTEM_RKQTOOLBAR_SYNTAX_AUTO</option>
+					<option value="html">PLG_SYSTEM_RKQTOOLBAR_SYNTAX_HTML</option>
+					<option value="markdown">PLG_SYSTEM_RKQTOOLBAR_SYNTAX_MARKDOWN</option>
+				</field>
+				<field name="buttons" type="text" label="PLG_SYSTEM_RKQTOOLBAR_PARAM_BUTTONS" description="PLG_SYSTEM_RKQTOOLBAR_PARAM_BUTTONS_DESC" default="bold,italic,link,quote,list,code,youtube,emoji" />
+			</fieldset>
+		</fields>
+	</config>
+</extension>
